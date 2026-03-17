@@ -1,4 +1,4 @@
-import {
+import type {
   NextFunction, Response, Request, RequestHandler,
   ErrorRequestHandler,
 } from 'express';
@@ -10,8 +10,8 @@ import {
   ErrorHandlerThunk,
   RunFn,
 
-} from './types';
-import { throwTypeError } from './throwTypeError';
+} from './types.js';
+import { throwTypeError } from './throwTypeError.js';
 
 const createContext = <T>(
   contextFactory: ContextFactory<T>,
@@ -37,7 +37,7 @@ const createContext = <T>(
       inject(handler(req, res, next), req, res) :
     handler.length === 4 ? (err: any, req: Request, res: Response, next: NextFunction) =>
       inject(handler(err, req, res, next), req, res) :
-    /* never */ throwTypeError('Wrong type of handler.')
+    /* never */ throwTypeError('Wrong type of handler.', consumer)
   ) as any;
 
   return { provider, consumer };

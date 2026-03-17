@@ -1,5 +1,5 @@
 import Express from 'express';
-import { ContextHolder } from '../types';
+import { ContextHolder } from '../types.js';
 
 const createMixinContextHolder = <T>(): ContextHolder<T> => {
   const $context = Symbol('context');

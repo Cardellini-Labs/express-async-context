@@ -4,13 +4,14 @@ on: [push, pull_request]
 
 jobs:
   test:
-    name: Test on Node ${{ matrix.node }} on ubuntu-latest
+    name: Test on Node ${{ matrix.node }} with Express ${{ matrix.express }}
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
-        node: [20]
+        node: [22, 24]
+        express: [4, 5]
 
     steps:
       - name: Clone repo
@@ -25,16 +26,22 @@ jobs:
         run: npm install
 
       - name: Lint
+        if: matrix.node == 24 && matrix.express == 5
         run: npm run lint
 
-      - name: Test with Coverage
-        run: npm run test
+      - name: Test with Coverage on Express 5
+        if: matrix.express == 5
+        run: npm test
+
+      - name: Test with Coverage on Express 4
+        if: matrix.express == 4
+        run: npm run test:express4
 
       - name: Publish on Coveralls
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          flag-name: node-${{ matrix.node }}
+          flag-name: node-${{ matrix.node }}-express-${{ matrix.express }}
           parallel: true
 
   report-coverage:

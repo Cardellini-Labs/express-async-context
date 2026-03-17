@@ -2,7 +2,7 @@ import express from 'express';
 import createContext from 'express-async-context';
 
 const Context = createContext(req => ({
-  traceId: req.headers['x-request-id'] ?? Math.random().toFixed(20).slice(2),
+  traceId: req.get('x-request-id') ?? Math.random().toFixed(20).slice(2),
 }));
 
 const app = express();
@@ -21,12 +21,12 @@ app.get('/error', Context.consumer(
 ));
 
 app.use(Context.consumer(
-  // Express requies error request handler to be 4-arity function,
+  // Express requires error request handler to be 4-arity function,
   // so `next` argument is required even if it is not used
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   (err: Error, req: express.Request, res: express.Response, next: express.NextFunction) =>
-    ({ traceId }) => {
+    ({ traceId }: { traceId: string | string[] }) => {
       console.error(`${traceId}:`, err.message);
       res.json({ error: err.message });
     },

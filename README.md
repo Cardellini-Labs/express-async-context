@@ -1,10 +1,8 @@
 # express-async-context
 
 Zero-dependency context-provision for express-application based on the AsyncLocalStorage.
-[![example workflow](https://github.com/DScheglov/express-async-context/actions/workflows/run-tests.yml/badge.svg)](https://github.com/DScheglov/ express-async-context/actions/workflows/run-tests.yml)
+[![example workflow](https://github.com/DScheglov/express-async-context/actions/workflows/run-tests.yml/badge.svg)](<https://github.com/DScheglov/> express-async-context/actions/workflows/run-tests.yml)
 [![Coverage Status](https://coveralls.io/repos/github/DScheglov/express-async-context/badge.svg?branch=master)](https://coveralls.io/github/DScheglov/express-async-context?branch=master) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/DScheglov/express-async-context/blob/master/LICENSE) [![npm version](https://img.shields.io/npm/v/express-async-context.svg?style=flat-square)](https://www.npmjs.com/package/express-async-context) [![npm downloads](https://img.shields.io/npm/dm/express-async-context.svg?style=flat-square)](https://www.npmjs.com/package/express-async-context)
-
-
 
 - [Installation](#installation)
 - [Usage](#usage)
@@ -61,20 +59,19 @@ The main benifit of context we can get when we use IoC-container as a context.
 To make such injection safe the static type-safe containers required, as instance:
 [true-di](https://github.com/DScheglov/true-di).
 
-
 See [Live DI Demo](https://codesandbox.io/s/github/DScheglov/true-di/tree/master/examples/getting-started?fontsize=14&hidenavigation=1&initialpath=/orders&module=/src/index.ts&theme=dark) on Sandbox
 
 ![DI Through Context](di-through-context.drawio.png)
 
 ## API Reference
 
-  - [function `createContext`](#function-createcontext)
-  - [type `ContextFactory<T>`](#type-contextfactoryt)
-  - [interface `ContextManager<T>`](#interface-contextmanagert)
-  - [type `HandlerThunk<T>`](#type-handlerthunkt)
-  - [type `ErrorHandlerThunk<T>`](#type-errorhandlerthunkt)
-  - [type `Thunk<T, R = void>`](#type-thunkt-r--void)
-  - [type `RunFn<T>`](#type-runfnt)
+- [function `createContext`](#function-createcontext)
+- [type `ContextFactory<T>`](#type-contextfactoryt)
+- [interface `ContextManager<T>`](#interface-contextmanagert)
+- [type `HandlerThunk<T>`](#type-handlerthunkt)
+- [type `ErrorHandlerThunk<T>`](#type-errorhandlerthunkt)
+- [type `Thunk<T, R = void>`](#type-thunkt-r--void)
+- [type `RunFn<T>`](#type-runfnt)
 
 ### function `createContext`
 
@@ -92,7 +89,6 @@ Accepts `contextFactory` function and creates a **ContextManager**.
 
 The type describes function that accepts `express`.`Request`, `express`.`Response` and returns **context data** of any type `T`.
 
-
 ### interface `ContextManager<T>`
 
 ```ts
@@ -106,10 +102,10 @@ interface ContextManager<T> {
 
 The interface contains two members:
 
- - **provider** - is an usual `express` middleware that creates **context data**
+- **provider** - is an usual `express` middleware that creates **context data**
 for each request using `contextFactory` and "_binds_" this data to the request
 
- - **consumer** - is a decorator for `HandlerThunk<T>` and `ErrorHandlerThunk` that converts them
+- **consumer** - is a decorator for `HandlerThunk<T>` and `ErrorHandlerThunk` that converts them
 to usual `express.RequestHandler` and `express.ErrorRequestHandler`.
 
 ### type `HandlerThunk<T>`
@@ -121,7 +117,7 @@ to usual `express.RequestHandler` and `express.ErrorRequestHandler`.
 
 The curried request handler that requires two-times application.
 
-`HandlerThunk` could be considered as an `express`.`RequestHandler` 
+`HandlerThunk` could be considered as an `express`.`RequestHandler`
 that returns a postponed handling of the request -- the `Thunk`
 
 ### type `ErrorHandlerThunk<T>`
@@ -153,6 +149,6 @@ that runs any other `Thunk`.
 ```
 
 Runs and injects the **context data** and itself to the postponed calculation
-that accepts as a single argument. 
+that accepts as a single argument.
 
 `RunFn` returns the result of execution of its argument-function.

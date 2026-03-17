@@ -1,6 +1,6 @@
-import createContext from './create-context';
-import alsHolder from './holders/als-holder';
-import { ContextFactory, ContextHolderFactory } from './types';
+import createContext from './create-context.js';
+import alsHolder from './holders/als-holder.js';
+import { ContextFactory, ContextHolderFactory } from './types.js';
 
 const createAlsContext = <T>(
   contextFactory: ContextFactory<T>,

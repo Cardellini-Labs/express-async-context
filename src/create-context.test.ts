@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import createContext from './create-context';
+import createContext from './create-context.js';
 import {
   ContextHolder, ErrorHandlerThunk, HandlerThunk, RunFn,
-} from './types';
+} from './types.js';
 
 describe('createContext', () => {
   const createHolder = <T>(): ContextHolder<T> => ({
@@ -42,13 +42,13 @@ describe('createContext', () => {
 
     it('expect it calls contextFatory and passed the req to it', () => {
       provider(req, res, next);
-      expect(contextFactory).toBeCalledTimes(1);
+      expect(contextFactory).toHaveBeenCalledTimes(1);
       expect(contextFactory).toHaveBeenCalledWith(req, res);
     });
 
     it('expect it calls holder.run and passed context, req and next to it', () => {
       provider(req, res, next);
-      expect(holder.run).toBeCalledTimes(1);
+      expect(holder.run).toHaveBeenCalledTimes(1);
       expect(holder.run).toHaveBeenCalledWith(ctx, req, next);
     });
   });

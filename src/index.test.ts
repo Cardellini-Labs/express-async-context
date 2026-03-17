@@ -1,6 +1,6 @@
 import createContext from '.';
 
-describe('als.createCotnext', () => {
+describe('als.createContext', () => {
   it('creates a context manager', () => {
     const context = createContext<boolean>(() => true);
     expect(context).toBeDefined();

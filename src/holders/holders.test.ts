@@ -1,7 +1,7 @@
 import { Request } from 'express';
-import { ContextHolderFactory } from '../types';
-import createAlsHolder from './als-holder';
-import createMixinHolder from './mixin-holder';
+import { ContextHolderFactory } from '../types.js';
+import createAlsHolder from './als-holder.js';
+import createMixinHolder from './mixin-holder.js';
 
 const delay = (ms: number = 0) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -27,8 +27,8 @@ describe.each([
     const cb = () => handler(holder.get(req));
 
     holder.run(ctx, req, cb);
-    expect(handler).toBeCalledTimes(1);
-    expect(handler).toBeCalledWith(ctx);
+    expect(handler).toHaveBeenCalledTimes(1);
+    expect(handler).toHaveBeenCalledWith(ctx);
   });
 
   it('allows to pass context to the microtask call', async () => {
@@ -42,8 +42,8 @@ describe.each([
 
     await delay();
 
-    expect(handler).toBeCalledTimes(1);
-    expect(handler).toBeCalledWith(ctx);
+    expect(handler).toHaveBeenCalledTimes(1);
+    expect(handler).toHaveBeenCalledWith(ctx);
   });
 
   it('allows to pass context to the task call', async () => {
@@ -57,8 +57,8 @@ describe.each([
 
     await delay();
 
-    expect(handler).toBeCalledTimes(1);
-    expect(handler).toBeCalledWith(ctx);
+    expect(handler).toHaveBeenCalledTimes(1);
+    expect(handler).toHaveBeenCalledWith(ctx);
   });
 
   it('doesn\'t mixes context with several the sync call', () => {
@@ -68,13 +68,13 @@ describe.each([
     const req = n.map(() => ({} as Request));
     const holder = createHolder();
     const handler = n.map(() => jest.fn());
-    const cb = n.map(i => () => handler[i](holder.get(req[i])));
+    const cb = n.map(i => () => handler[i]!(holder.get(req[i]!)));
 
-    n.forEach(i => holder.run(ctx[i], req[i], cb[i]));
+    n.forEach(i => holder.run(ctx[i]!, req[i]!, cb[i]!));
 
     n.forEach(i => {
-      expect(handler[i]).toBeCalledTimes(1);
-      expect(handler[i]).toBeCalledWith(ctx[i]);
+      expect(handler[i]!).toHaveBeenCalledTimes(1);
+      expect(handler[i]!).toHaveBeenCalledWith(ctx[i]!);
     });
   });
 
@@ -85,15 +85,15 @@ describe.each([
     const req = n.map(() => ({} as Request));
     const holder = createHolder();
     const handler = n.map(() => jest.fn());
-    const cb = n.map(i => () => Promise.resolve().then(() => handler[i](holder.get(req[i]))));
+    const cb = n.map(i => () => Promise.resolve().then(() => handler[i]!(holder.get(req[i]!))));
 
-    n.forEach(i => holder.run(ctx[i], req[i], cb[i]));
+    n.forEach(i => holder.run(ctx[i]!, req[i]!, cb[i]!));
 
     await delay();
 
     n.forEach(i => {
-      expect(handler[i]).toBeCalledTimes(1);
-      expect(handler[i]).toBeCalledWith(ctx[i]);
+      expect(handler[i]!).toHaveBeenCalledTimes(1);
+      expect(handler[i]!).toHaveBeenCalledWith(ctx[i]!);
     });
   });
 
@@ -104,15 +104,15 @@ describe.each([
     const req = n.map(() => ({} as Request));
     const holder = createHolder();
     const handler = n.map(() => jest.fn());
-    const cb = n.map(i => () => setTimeout(() => handler[i](holder.get(req[i])), 0));
+    const cb = n.map(i => () => setTimeout(() => handler[i]!(holder.get(req[i]!)), 0));
 
-    n.forEach(i => holder.run(ctx[i], req[i], cb[i]));
+    n.forEach(i => holder.run(ctx[i]!, req[i]!, cb[i]!));
 
     await delay();
 
     n.forEach(i => {
-      expect(handler[i]).toBeCalledTimes(1);
-      expect(handler[i]).toBeCalledWith(ctx[i]);
+      expect(handler[i]!).toHaveBeenCalledTimes(1);
+      expect(handler[i]!).toHaveBeenCalledWith(ctx[i]!);
     });
   });
 });

@@ -1,6 +1,6 @@
-import createContext from './mixin';
+import createContext from './mixin.js';
 
-describe('mixin.createCotnext', () => {
+describe('mixin.createContext', () => {
   it('creates a context manager', () => {
     const context = createContext<boolean>(() => true);
     expect(context).toBeDefined();

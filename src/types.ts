@@ -1,4 +1,4 @@
-import {
+import type {
   NextFunction, Response, Request, ErrorRequestHandler, RequestHandler,
 } from 'express';
 

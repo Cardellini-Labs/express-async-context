@@ -39,7 +39,6 @@ Each time new `traceId`.
 
 ----
 
-
 ```shell
 curl -H "X-Request-Id: 62313128484455049261" http://localhost:8080/trace-id
 ```

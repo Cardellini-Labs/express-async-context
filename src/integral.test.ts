@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import request from 'supertest';
-import express, { NextFunction, Request, Response } from 'express';
+import express, { type NextFunction, type Request, type Response } from 'express';
 import alsContext from '.';
-import mixinContext from './mixin';
+import mixinContext from './mixin.js';
 
 describe.each([
   ['alsContext', alsContext],
