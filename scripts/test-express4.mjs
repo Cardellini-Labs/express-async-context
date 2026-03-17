@@ -64,6 +64,12 @@ try {
   console.log(`Running tests in ${tempDir} with express@${packageJson.devDependencies.express}`);
   await run('npm', ['install'], tempDir);
   await run('npm', ['test'], tempDir);
+  await rm(path.join(rootDir, 'coverage'), { recursive: true, force: true });
+  await cp(
+    path.join(tempDir, 'coverage'),
+    path.join(rootDir, 'coverage'),
+    { recursive: true },
+  );
 } finally {
   await rm(tempDir, { recursive: true, force: true });
 }

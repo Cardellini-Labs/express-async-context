@@ -3,6 +3,23 @@ name: Tests
 on: [push, pull_request]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v2
+
+      - name: Set Node.js version
+        uses: actions/setup-node@v1
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Lint
+        run: npm run lint
+
   test:
     name: Test on Node ${{ matrix.node }} with Express ${{ matrix.express }}
     runs-on: ubuntu-latest
@@ -25,17 +42,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Lint
-        if: matrix.node == 24 && matrix.express == 5
-        run: npm run lint
+      - name: Install Express ${{ matrix.express }}
+        run: npm install express@${{ matrix.express }} @types/express@${{ matrix.express }}
 
-      - name: Test with Coverage on Express 5
-        if: matrix.express == 5
+      - name: Test with Coverage
         run: npm test
-
-      - name: Test with Coverage on Express 4
-        if: matrix.express == 4
-        run: npm run test:express4
 
       - name: Publish on Coveralls
         uses: coverallsapp/github-action@master
@@ -45,7 +56,9 @@ jobs:
           parallel: true
 
   report-coverage:
-    needs: test
+    needs:
+      - lint
+      - test
     runs-on: ubuntu-latest
     steps:
     - name: Coveralls Finished
