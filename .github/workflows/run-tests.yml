@@ -90,6 +90,8 @@ jobs:
         run: npm run compile
 
       - name: Publish to npm
-        run: npm publish
+        run: |
+          cp .npmrc.config .npmrc
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
